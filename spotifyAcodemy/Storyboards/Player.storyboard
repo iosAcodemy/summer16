@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="7fx-Vq-fXg">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Player View Controller-->
+        <scene sceneID="HVn-dQ-FuK">
+            <objects>
+                <viewController storyboardIdentifier="PlayerViewController" id="7fx-Vq-fXg" customClass="PlayerViewController" customModule="spotifyAcodemy" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="BKZ-lo-KGp"/>
+                        <viewControllerLayoutGuide type="bottom" id="uwJ-Iw-x7C"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="HVi-xk-y7i">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dOR-od-yNT">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="7fx-Vq-fXg" id="lSf-5p-vuP"/>
+                                    <outlet property="delegate" destination="7fx-Vq-fXg" id="fZ1-Gg-usq"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="dOR-od-yNT" secondAttribute="trailing" id="FWh-7p-lpc"/>
+                            <constraint firstItem="dOR-od-yNT" firstAttribute="top" secondItem="BKZ-lo-KGp" secondAttribute="bottom" id="KIW-ZC-Za8"/>
+                            <constraint firstItem="uwJ-Iw-x7C" firstAttribute="top" secondItem="dOR-od-yNT" secondAttribute="bottom" id="bsI-4H-mHR"/>
+                            <constraint firstItem="dOR-od-yNT" firstAttribute="leading" secondItem="HVi-xk-y7i" secondAttribute="leading" id="hTg-ml-X80"/>
+                            <constraint firstItem="dOR-od-yNT" firstAttribute="top" secondItem="HVi-xk-y7i" secondAttribute="top" id="jpF-ex-XK1"/>
+                            <constraint firstItem="uwJ-Iw-x7C" firstAttribute="top" secondItem="dOR-od-yNT" secondAttribute="bottom" id="waW-NH-zVi"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="KIW-ZC-Za8"/>
+                                <exclude reference="waW-NH-zVi"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="tableView" destination="dOR-od-yNT" id="bGW-Md-27G"/>
+                        <segue destination="987-qw-LXf" kind="show" identifier="showAlbum" id="fUn-qe-Hdm"/>
+                        <segue destination="yaL-zf-jla" kind="show" identifier="showArtist" id="32y-B9-CSu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dMn-bt-y4Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2051" y="537"/>
+        </scene>
+        <!--albumViewController-->
+        <scene sceneID="LT9-c2-zAb">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Album" referencedIdentifier="albumViewController" id="987-qw-LXf" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hce-YM-qKM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1831.5" y="953"/>
+        </scene>
+        <!--ArtistViewController-->
+        <scene sceneID="Q4X-xG-zAH">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Artist" referencedIdentifier="ArtistViewController" id="yaL-zf-jla" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hJQ-pa-7Da" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2272.5" y="953"/>
+        </scene>
+    </scenes>
+</document>
