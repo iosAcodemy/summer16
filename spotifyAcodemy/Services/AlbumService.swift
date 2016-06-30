@@ -7,9 +7,8 @@ import Foundation
 
 class AlbumService {
 
-     //Module 1 - Task 4
-    func getTracks() {
-        
+    func getTracks(id: String, completionHandler: (Response<[Track]>) -> Void) {
+        api.requestObjects(.AlbumTracks(id: id), completionHandler: completionHandler)
     }
 
 }

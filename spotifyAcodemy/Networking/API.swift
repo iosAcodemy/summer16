@@ -37,15 +37,17 @@ import Foundation
 let api = API()
 
 class API {
-
+    
     enum HTTPMethod: String {
         case GET
         case POST
         case PUT
         case DELETE
     }
-
+    
     enum Endpoint {
+        case Track(id: String)
+        case Tracks(ids: [String])
         case Album(id: String)
         case AlbumTracks(id: String)
         case Albums(ids: [String])
@@ -55,16 +57,20 @@ class API {
         case ArtistRelatedArtists(id: String)
         case Artists(ids: [String])
         case Search(query: String, type: SpotifyItemType)
-
+        
         var method: HTTPMethod {
             switch self {
             default:
                 return .GET
             }
         }
-        // Module 1 - Task 1
+        
         var path: String {
             switch self {
+            case .Track(let id):
+                return "tracks/\(id)/"
+            case .Tracks:
+                return "tracks/"
             case .Album(let id):
                 return "albums/\(id)/"
             case .AlbumTracks(let id):
@@ -85,10 +91,12 @@ class API {
                 return "search/"
             }
         }
-
+        
         var parameters: [String: AnyObject] {
             var parameters = [String: AnyObject]()
             switch self {
+            case .Tracks(let ids):
+                parameters["ids"] = ids.encoded
             case .Albums(let ids):
                 parameters["ids"] = ids.encoded
             case .Artists(let ids):
@@ -103,10 +111,10 @@ class API {
             }
             return parameters
         }
-
+        
         var rootKeyPath: String? {
             switch self {
-            case .ArtistTopTracks:
+            case .Tracks, .ArtistTopTracks:
                 return "tracks"
             case .Albums:
                 return "albums"
@@ -121,15 +129,15 @@ class API {
             }
         }
     }
-
+    
     // MARK: Properties
-
+    
     static let baseURL = NSURL(string: "https://api.spotify.com/v1/")!
-
+    
     private let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-
+    
     // MARK: Public API
-
+    
     func requestObject<T: JSONDecodable>(endpoint: Endpoint, completionHandler: (Response<T>) -> Void) {
         request(endpoint) { json, error in
             if let json = json, object: T = self.decodeJSON(json, rootKeyPath: endpoint.rootKeyPath) {
@@ -139,7 +147,7 @@ class API {
             }
         }
     }
-
+    
     func requestObjects<T: JSONDecodable>(endpoint: Endpoint, completionHandler: (Response<[T]>) -> Void) {
         request(endpoint) { json, error in
             if let json = json, object: [T] = self.decodeJSONArray(json, rootKeyPath: endpoint.rootKeyPath) {
@@ -149,17 +157,44 @@ class API {
             }
         }
     }
-
+    
     func request(endpoint: Endpoint, completionHandler: (json: JSON?, error: NSError?) -> Void) {
-        //Module 1 - Task 2
+        guard let url = absoluteURL(endpoint) else {
+            return
+        }
+        
+        debugPrint(url.absoluteString)
+        
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = endpoint.method.rawValue
+        
+        session.dataTaskWithRequest(request) { (data, response, error) in
+            guard let data = data else {
+                debugPrint(error)
+                completionHandler(json: nil, error: error)
+                return
+            }
+            
+            do {
+                let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as? JSON
+                debugPrint(json)
+                if let nsError = self.createNSErrorFromJson(json) {
+                    completionHandler(json: json, error: nsError)
+                } else {
+                    completionHandler(json: json, error: nil)
+                }
+            } catch {
+                completionHandler(json: nil, error: nil)
+            }
+		}.resume()
     }
 
     func createNSErrorFromJson(json: JSON?) -> NSError? {
         guard let dict = json,
-            errorDict = dict["error"] as? [String: AnyObject],
+			errorDict = dict["error"] as? [String: AnyObject],
             message = errorDict["message"] as? String,
-            errorCode = errorDict["status"] as? Int
-            else { return nil }
+			errorCode = errorDict["status"] as? Int
+			else { return nil }
 
         var userInfoDict = [String:String]()
         userInfoDict[NSLocalizedDescriptionKey] = message
@@ -167,35 +202,44 @@ class API {
     }
 
     // MARK: Private Methods
-
+    
     private func absoluteURL(endpoint: Endpoint) -> NSURL? {
-        //Module 1 - Task 3
+        guard let url = NSURL(string: endpoint.path, relativeToURL: API.baseURL) else {
+            return nil
+        }
+        
+        let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: true)
+        urlComponents?.queryItems = endpoint.parameters.map { (name, value) in
+            return NSURLQueryItem(name: name, value: value.description)
+        }
+        
+        return urlComponents?.URL
     }
-
+    
     private func decodeJSON<T: JSONDecodable>(json: JSON, rootKeyPath: String?) -> T? {
         guard let jsonObject = rootObject(json, rootKeyPath: rootKeyPath) else {
             return nil
         }
-
+        
         return try? T.decodeJSONObject(jsonObject)
     }
-
+    
     private func decodeJSONArray<T: JSONDecodable>(json: JSON, rootKeyPath: String?) -> [T]? {
         guard let jsonObject = rootObject(json, rootKeyPath: rootKeyPath) else {
             return nil
         }
-
+        
         return try? Array<T>.decodeJSONObject(jsonObject)
     }
-
+    
     private func rootObject(json: JSON, rootKeyPath: String?) -> AnyObject? {
         guard let keyPath = rootKeyPath where !keyPath.isEmpty else {
             return json
         }
-
+        
         let subpaths = keyPath.componentsSeparatedByString(".")
         let subpathsCount = subpaths.count
-
+        
         var rootJSON: JSON? = json
         for (index, subpath) in subpaths.enumerate() {
             if let obj = rootJSON?[subpath] {
