@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G12a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Nfg-Hv-p3X">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Favorites-->
+        <scene sceneID="gFs-Hq-xqr">
+            <objects>
+                <viewController storyboardIdentifier="FavoritesViewController" id="Nfg-Hv-p3X" customClass="FavoritesViewController" customModule="spotifyAcodemy" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="RCu-4i-DIT"/>
+                        <viewControllerLayoutGuide type="bottom" id="mcg-rO-Oan"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="CXd-Fz-sIH">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="b8b-la-B1I">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <inset key="separatorInset" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Nfg-Hv-p3X" id="ROB-S3-voB"/>
+                                    <outlet property="delegate" destination="Nfg-Hv-p3X" id="0YT-wb-x8w"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="b8b-la-B1I" firstAttribute="top" secondItem="RCu-4i-DIT" secondAttribute="bottom" id="Usg-Vk-byE"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="b8b-la-B1I" secondAttribute="trailing" constant="-20" id="e3w-XY-qF1"/>
+                            <constraint firstItem="b8b-la-B1I" firstAttribute="leading" secondItem="CXd-Fz-sIH" secondAttribute="leadingMargin" constant="-20" id="tYt-c0-nfQ"/>
+                            <constraint firstItem="mcg-rO-Oan" firstAttribute="top" secondItem="b8b-la-B1I" secondAttribute="bottom" id="yGU-JS-cHn"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Favorites" id="MYZ-R0-BLc"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="tableView" destination="b8b-la-B1I" id="Oca-Zp-MlT"/>
+                        <segue destination="xHD-gp-hva" kind="show" identifier="showPlayer" id="pVy-7L-G7G"/>
+                        <segue destination="peH-gP-4Go" kind="show" identifier="showArtist" id="qE7-a8-Jcy"/>
+                        <segue destination="ZB6-7I-m3C" kind="show" identifier="showAlbum" id="Sk7-4t-Wml"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4so-sk-arc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1321" y="422"/>
+        </scene>
+        <!--PlayerViewController-->
+        <scene sceneID="8kM-h1-6iC">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Player" referencedIdentifier="PlayerViewController" id="xHD-gp-hva" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WxM-Co-P3b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1101" y="869"/>
+        </scene>
+        <!--albumViewController-->
+        <scene sceneID="0Kt-uC-8hN">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Album" referencedIdentifier="albumViewController" id="ZB6-7I-m3C" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Du-yf-b4h" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1540.5" y="869"/>
+        </scene>
+        <!--ArtistViewController-->
+        <scene sceneID="MY4-0c-dF0">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Artist" referencedIdentifier="ArtistViewController" id="peH-gP-4Go" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TlN-ua-Lio" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1321.5" y="869"/>
+        </scene>
+    </scenes>
+</document>

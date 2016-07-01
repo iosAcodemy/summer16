@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G12a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MoreResultsTableViewCell" id="KGk-i7-Jjw" customClass="MoreResultsTableViewCell" customModule="spotifyAcodemy" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KHE-Gm-LYO">
+                        <rect key="frame" x="15" y="11" width="290" height="21"/>
+                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="13"/>
+                        <color key="textColor" red="0.70980392156862748" green="0.54509803921568623" blue="0.34901960784313724" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nextArrow" translatesAutoresizingMaskIntoConstraints="NO" id="JPw-hW-CnQ">
+                        <rect key="frame" x="285" y="12" width="10" height="19"/>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="19" id="Ls5-h6-Edr"/>
+                            <constraint firstAttribute="width" constant="10" id="NLP-Y4-Ze6"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="10" id="aLY-JN-aBW"/>
+                            <constraint firstAttribute="height" constant="19" id="ny8-uV-ghF"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Ls5-h6-Edr"/>
+                                <exclude reference="aLY-JN-aBW"/>
+                            </mask>
+                        </variation>
+                    </imageView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="KHE-Gm-LYO" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="66x-3p-fjC"/>
+                    <constraint firstItem="JPw-hW-CnQ" firstAttribute="centerY" secondItem="KHE-Gm-LYO" secondAttribute="centerY" id="7D1-8X-2Bf"/>
+                    <constraint firstItem="JPw-hW-CnQ" firstAttribute="centerX" secondItem="KHE-Gm-LYO" secondAttribute="centerX" id="GDF-uh-U5f"/>
+                    <constraint firstAttribute="trailing" secondItem="JPw-hW-CnQ" secondAttribute="trailing" constant="25" id="okm-j7-dyX"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="KHE-Gm-LYO" secondAttribute="trailing" constant="7" id="rd0-qO-WC0"/>
+                    <constraint firstAttribute="trailing" secondItem="KHE-Gm-LYO" secondAttribute="trailing" constant="15" id="sn5-mh-cBe"/>
+                    <constraint firstItem="KHE-Gm-LYO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="tPB-Ci-coP"/>
+                </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="sn5-mh-cBe"/>
+                        <exclude reference="GDF-uh-U5f"/>
+                    </mask>
+                </variation>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="moreResultsLabel" destination="KHE-Gm-LYO" id="13M-bS-qsG"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="nextArrow" width="40" height="84"/>
+    </resources>
+</document>

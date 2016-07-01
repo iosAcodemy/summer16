@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AlbumCoverTableViewCell" rowHeight="381" id="KGk-i7-Jjw" customClass="AlbumCoverTableViewCell" customModule="spotifyAcodemy" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="524" height="381"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="524" height="380"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="aRG-zi-XUg">
+                        <rect key="frame" x="-2" y="-2" width="528" height="384"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="albumCover" translatesAutoresizingMaskIntoConstraints="NO" id="5dx-ki-fWi">
+                                <rect key="frame" x="189" y="0.0" width="150" height="384"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="170" id="IGk-rf-l9q"/>
+                                    <constraint firstAttribute="width" secondItem="5dx-ki-fWi" secondAttribute="height" multiplier="60:77" id="L0S-aM-Ct9"/>
+                                    <constraint firstAttribute="width" constant="170" id="ZeU-dW-1Rw"/>
+                                    <constraint firstAttribute="height" constant="170" id="dcc-zt-uni"/>
+                                    <constraint firstAttribute="width" constant="170" id="wFP-Ts-dRb"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="IGk-rf-l9q"/>
+                                        <exclude reference="L0S-aM-Ct9"/>
+                                        <exclude reference="ZeU-dW-1Rw"/>
+                                        <exclude reference="dcc-zt-uni"/>
+                                        <exclude reference="wFP-Ts-dRb"/>
+                                    </mask>
+                                </variation>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="5dx-ki-fWi" firstAttribute="leading" secondItem="aRG-zi-XUg" secondAttribute="leading" id="1vQ-pI-9CX"/>
+                            <constraint firstItem="5dx-ki-fWi" firstAttribute="centerX" secondItem="aRG-zi-XUg" secondAttribute="centerX" id="7bW-uV-gmt"/>
+                            <constraint firstItem="5dx-ki-fWi" firstAttribute="top" secondItem="aRG-zi-XUg" secondAttribute="top" id="JAF-WM-Pwh"/>
+                            <constraint firstAttribute="trailing" secondItem="5dx-ki-fWi" secondAttribute="trailing" id="SmM-HS-S0d"/>
+                            <constraint firstItem="5dx-ki-fWi" firstAttribute="centerY" secondItem="aRG-zi-XUg" secondAttribute="centerY" id="gfl-2G-od9"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="1vQ-pI-9CX"/>
+                                <exclude reference="JAF-WM-Pwh"/>
+                                <exclude reference="SmM-HS-S0d"/>
+                            </mask>
+                        </variation>
+                    </stackView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="aRG-zi-XUg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-10" id="60e-5B-JxS"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="aRG-zi-XUg" secondAttribute="trailing" constant="-10" id="EK7-wE-6my"/>
+                    <constraint firstItem="aRG-zi-XUg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-10" id="KI4-py-qS9"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="aRG-zi-XUg" secondAttribute="bottom" constant="-10" id="rRu-TL-ceA"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" red="0.1137254902" green="0.1137254902" blue="0.1137254902" alpha="1" colorSpace="calibratedRGB"/>
+            <connections>
+                <outlet property="albumCoverImage" destination="5dx-ki-fWi" id="H0f-2N-rQp"/>
+            </connections>
+            <point key="canvasLocation" x="543" y="623.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="albumCover" width="300" height="300"/>
+    </resources>
+</document>
