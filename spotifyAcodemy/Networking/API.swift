@@ -46,8 +46,8 @@ class API {
     }
 
     enum Endpoint {
-		case Track(id: String)
-		case Tracks(ids: [String])
+        case Track(id: String)
+        case Tracks(ids: [String])
         case Album(id: String)
         case AlbumTracks(id: String)
         case Albums(ids: [String])
@@ -64,9 +64,13 @@ class API {
                 return .GET
             }
         }
-        // Module 1 - Task 1
+        
         var path: String {
             switch self {
+            case .Track(let id):
+                return "tracks/\(id)/"
+            case .Tracks:
+                return "tracks/"
             case .Album(let id):
                 return "albums/\(id)/"
             case .AlbumTracks(let id):
@@ -93,6 +97,8 @@ class API {
         var parameters: [String: AnyObject] {
             var parameters = [String: AnyObject]()
             switch self {
+            case .Tracks(let ids):
+                parameters["ids"] = ids.encoded
             case .Albums(let ids):
                 parameters["ids"] = ids.encoded
             case .Artists(let ids):
@@ -110,7 +116,7 @@ class API {
 
         var rootKeyPath: String? {
             switch self {
-            case .ArtistTopTracks:
+            case .Tracks, .ArtistTopTracks:
                 return "tracks"
             case .Albums:
                 return "albums"
@@ -155,15 +161,44 @@ class API {
     }
 
     func request(endpoint: Endpoint, completionHandler: (json: JSON?, error: NSError?) -> Void) {
-        //Module 1 - Task 2
+		guard let url = absoluteURL(endpoint) else {
+			return
+		}
+
+		debugPrint(url.absoluteString)
+
+		let request = NSMutableURLRequest(URL: url)
+		request.HTTPMethod = endpoint.method.rawValue
+
+		let mainQueueCompletionHandler = { (json: JSON?, error: NSError?) in
+			dispatch_async(dispatch_get_main_queue()) {
+				completionHandler(json: json, error: error)
+			}
+		}
+
+		session.dataTaskWithRequest(request) { (data, response, error) in
+			guard let data = data else {
+				debugPrint(error)
+				mainQueueCompletionHandler(nil, error)
+				return
+			}
+
+			do {
+				let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as? JSON
+				debugPrint(json)
+				mainQueueCompletionHandler(json, self.createNSErrorFromJson(json))
+			} catch {
+				mainQueueCompletionHandler(nil, nil)
+			}
+			}.resume()
     }
 
     func createNSErrorFromJson(json: JSON?) -> NSError? {
         guard let dict = json,
-            errorDict = dict["error"] as? [String: AnyObject],
+			errorDict = dict["error"] as? [String: AnyObject],
             message = errorDict["message"] as? String,
-            errorCode = errorDict["status"] as? Int
-            else { return nil }
+			errorCode = errorDict["status"] as? Int
+			else { return nil }
 
         var userInfoDict = [String:String]()
         userInfoDict[NSLocalizedDescriptionKey] = message
@@ -173,8 +208,16 @@ class API {
     // MARK: Private Methods
 
     private func absoluteURL(endpoint: Endpoint) -> NSURL? {
-        //Module 1 - Task 3
-		return nil
+        guard let url = NSURL(string: endpoint.path, relativeToURL: API.baseURL) else {
+            return nil
+        }
+        
+        let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: true)
+        urlComponents?.queryItems = endpoint.parameters.map { (name, value) in
+            return NSURLQueryItem(name: name, value: value.description)
+        }
+        
+        return urlComponents?.URL
     }
 
     private func decodeJSON<T: JSONDecodable>(json: JSON, rootKeyPath: String?) -> T? {

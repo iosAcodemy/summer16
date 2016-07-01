@@ -33,7 +33,25 @@ extension Track: SpotifyItem {
 extension Track {
     static func decodeJSONObject(object: AnyObject) throws -> Track {
 		//Module 1 - Task 5
-		return Track(id: "", name: "", popularity: nil, previewUrl: nil, trackNumber: 0, artists: [],
-		             album: nil, durationMs: 0, href: "", typeRaw: "", uri: "")
+		guard let dict = object as? [String: AnyObject],
+			id = dict["id"] as? String,
+			name = dict["name"] as? String,
+			trackNumber = dict["track_number"] as? Int,
+			durationMs = dict["duration_ms"] as? Int,
+			href = dict["href"] as? String,
+			typeRaw = dict["type"] as? String,
+			uri = dict["uri"] as? String else {
+
+				throw JSONDecodingError(object: object)
+		}
+
+		let popularity = dict["popularity"] as? Int
+		let previewUrl = dict["preview_url"] as? String
+		let artists = try Array<Artist>.decodeOptionalJSONObject(dict["artists"]) ?? []
+		let album = try Album.decodeOptionalJSONObject(dict["album"])
+
+		return Track(id: id, name: name, popularity: popularity, previewUrl: previewUrl,
+		             trackNumber: trackNumber, artists: artists, album: album, durationMs: durationMs,
+		             href: href, typeRaw: typeRaw, uri: uri)
     }
 }
