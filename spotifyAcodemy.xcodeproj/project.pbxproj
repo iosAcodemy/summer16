@@ -23,6 +23,8 @@
 		96B14B271CBEA96400DA91BE /* URLEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B14B231CBEA96400DA91BE /* URLEncodable.swift */; };
 		96B14B281CBEA97600DA91BE /* SpotifyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC79C2ED34E523F50A3454A9 /* SpotifyItem.swift */; };
 		96B14B291CBEAA3800DA91BE /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC79C386C98D2A72BFE4FD4E /* Utils.swift */; };
+		DB04FCDC1D25C38C00F4D242 /* UITableViewFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB04FCDB1D25C38C00F4D242 /* UITableViewFake.swift */; };
+		DB52E1091D254BCE0059AAFE /* AlbumViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB52E1081D254BCE0059AAFE /* AlbumViewControllerSpec.swift */; };
 		E210746D1CB525EF009984B2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E210746C1CB525EF009984B2 /* LaunchScreen.storyboard */; };
 		E210746F1CB525FA009984B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E210746E1CB525FA009984B2 /* Main.storyboard */; };
 		E21074711CB5265A009984B2 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21074701CB5265A009984B2 /* FeedViewController.swift */; };
@@ -119,6 +121,8 @@
 		96B14B231CBEA96400DA91BE /* URLEncodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLEncodable.swift; sourceTree = "<group>"; };
 		AC0F5B9BE49E4320DDE3F711 /* Pods-spotifyAcodemy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-spotifyAcodemy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-spotifyAcodemy/Pods-spotifyAcodemy.debug.xcconfig"; sourceTree = "<group>"; };
 		BD73CD5018026C64AD14CC0C /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB04FCDB1D25C38C00F4D242 /* UITableViewFake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewFake.swift; sourceTree = "<group>"; };
+		DB52E1081D254BCE0059AAFE /* AlbumViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumViewControllerSpec.swift; sourceTree = "<group>"; };
 		DC79C2ED34E523F50A3454A9 /* SpotifyItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyItem.swift; sourceTree = "<group>"; };
 		DC79C386C98D2A72BFE4FD4E /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		DFDA96BF2BDEDE740D6EECB1 /* Pods-spotifyAcodemyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-spotifyAcodemyTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-spotifyAcodemyTests/Pods-spotifyAcodemyTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -279,6 +283,7 @@
 				E2842A691CB63A04000FD04C /* AlbumViewController.swift */,
 				E21074721CB52665009984B2 /* FavoritesViewController.swift */,
 				E2842A731CB665FA000FD04C /* ArtistViewController.swift */,
+				DB52E1081D254BCE0059AAFE /* AlbumViewControllerSpec.swift */,
 				E2842A791CB6B4B2000FD04C /* PlayerViewController.swift */,
 				F073611D1D23C8C00017CB29 /* SearchResultsViewController.swift */,
 				96155EA31D24580200B1A424 /* SpotifyItemSection.swift */,
@@ -377,6 +382,7 @@
 			children = (
 				E29BEF011D1BA8A400B89620 /* spotifyAcodemyTests.swift */,
 				E29BEF031D1BA8A400B89620 /* Info.plist */,
+				DB04FCDB1D25C38C00F4D242 /* UITableViewFake.swift */,
 			);
 			path = spotifyAcodemyTests;
 			sourceTree = "<group>";
@@ -734,8 +740,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB04FCDC1D25C38C00F4D242 /* UITableViewFake.swift in Sources */,
 				E29BEF021D1BA8A400B89620 /* spotifyAcodemyTests.swift in Sources */,
 				E24C47F91D1BB168001CC9FE /* FeedViewControllerSpec.swift in Sources */,
+				DB52E1091D254BCE0059AAFE /* AlbumViewControllerSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

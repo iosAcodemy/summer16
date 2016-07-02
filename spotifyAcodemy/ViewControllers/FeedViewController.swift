@@ -12,7 +12,7 @@ class FeedViewController: SpotifyItemListViewController {
 
     // MARK: Properties
 
-	private lazy var searchController: UISearchController = {
+    lazy var searchController: UISearchController = {
 		let searchController = UISearchController(searchResultsController: self.searchResultsViewController)
 		searchController.searchResultsUpdater = self.searchResultsViewController
 		searchController.hidesNavigationBarDuringPresentation = false
@@ -23,7 +23,7 @@ class FeedViewController: SpotifyItemListViewController {
 		return searchController
 	}()
 
-	private lazy var searchResultsViewController: SearchResultsViewController = {
+    lazy var searchResultsViewController: SearchResultsViewController = {
 		let viewController = SearchResultsViewController()
 		viewController.delegate = self
 		return viewController
