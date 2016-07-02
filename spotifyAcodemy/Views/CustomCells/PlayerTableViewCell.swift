@@ -8,12 +8,13 @@
 
 import UIKit
 import AVFoundation
+import RxSwift
 
 var currentTime = 0
 
 typealias PlayerPauseTime = (time: Int) -> ()
 
-protocol PlayerCellDelegate {
+protocol PlayerCellDelegate: class {
     func pause(currentTime: PlayerPauseTime)
     func playerPlay()
     func playTrack()
@@ -36,8 +37,20 @@ class PlayerTableViewCell: UITableViewCell {
     private var isPlaying = false
     private var resume = false
     private var currentTime = 0
-    private var delegate: PlayerCellDelegate?
+    
+    private var disposeBag: DisposeBag!
+    
+    weak var delegate: PlayerCellDelegate?
 
+    var viewModel: PlayerCellViewModel! {
+        didSet {
+            bindViewModel()
+            setupProgressBar()
+        }
+    }
+    
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -46,6 +59,12 @@ class PlayerTableViewCell: UITableViewCell {
                          selector: #selector(PlayerTableViewCell.playerDidFinishPlaying(_:)),
                          name: "playerDidFinishPlaying",
                          object: nil)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        disposeBag = nil
     }
 
     func setupProgressBar() {
@@ -56,17 +75,17 @@ class PlayerTableViewCell: UITableViewCell {
         progress.roundedCorners = false
         progress.setColors(UIColor(red: 162.0/255.0, green: 125.0/255.0, blue: 80.0/255.0, alpha: 1))
     }
-
-    func configure(track: Track, album: Album, delegate: PlayerCellDelegate) {
-        songNameLabel.text = track.name
-        artistLabel.text = track.artists.first?.name
-        albumNameLabel.text = album.name
-
-        self.track = track
-        self.delegate = delegate
-
-        setupProgressBar()
-    }
+//
+//    func configure(track: Track, album: Album, delegate: PlayerCellDelegate) {
+//        songNameLabel.text = track.name
+//        artistLabel.text = track.artists.first?.name
+//        albumNameLabel.text = album.name
+//
+//        self.track = track
+//        self.delegate = delegate
+//
+//        setupProgressBar()
+//    }
 
     @IBAction func playerButtonTapped(sender: AnyObject) {
         isPlaying ? pause() : resumeOrStartPlaying()
@@ -114,5 +133,15 @@ class PlayerTableViewCell: UITableViewCell {
         resume = false
         currentTime = 0
         setupButtonModeOn(.Play)
+    }
+    
+    //MARK: - Private
+    
+    private func bindViewModel() {
+        disposeBag = DisposeBag()
+        
+        viewModel.artist.asObservable().bindTo(artistLabel.rx_text).addDisposableTo(disposeBag)
+        viewModel.album.asObservable().bindTo(albumNameLabel.rx_text).addDisposableTo(disposeBag)
+        viewModel.song.asObservable().bindTo(songNameLabel.rx_text).addDisposableTo(disposeBag)
     }
 }

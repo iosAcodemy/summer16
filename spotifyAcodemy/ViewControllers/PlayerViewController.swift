@@ -15,8 +15,8 @@ class PlayerViewController: UIViewController {
 
     @IBOutlet private weak var tableView: UITableView!
 
-    var album: Album?
-    var track: Track?
+    var album: Album!
+    var track: Track!
 
     private var player = AVPlayer()
     private var isPlaying = false
@@ -134,7 +134,8 @@ extension PlayerViewController: UITableViewDataSource, UITableViewDelegate {
             return cell
         case(1,0):
             let cell = tableView.dequeueReusableCellWithIdentifier(CustomCell.PlayerTableViewCell.rawValue, forIndexPath: indexPath) as! PlayerTableViewCell
-            cell.configure(track!, album: album!, delegate:self)
+            cell.viewModel = PlayerCellViewModel(track: track)
+            cell.delegate = self
             return cell
 
         default:
