@@ -23,7 +23,7 @@ class ArtistViewController: UIViewController {
                                                          segueIdentifier: "", cellHeight: 60)
     private let trackSection = SpotifyItemSection<Track>(title: "Tracks:", itemType: .Track, limit: 8,
                                                          segueIdentifier: "", cellHeight: 45)
-    
+
     private lazy var sections: [SpotifyItemSectionType] = [self.albumSection, self.trackSection]
 
 
@@ -97,11 +97,14 @@ class ArtistViewController: UIViewController {
     }
 
     private func getAlbums() {
-        pleaseWait()
         artistService.getAlbums(artist.id) { (response: Response) in
             switch response {
             case .Success(let albums):
-                self.showAlbums(albums)
+                self.albumSection.items = albums ?? []
+                self.albumSection.expanded = false
+                self.clearAllNotice {
+                    self.tableView.reloadData()
+                }
             case .Error(let error):
                 self.showError(error)
             }
@@ -109,11 +112,14 @@ class ArtistViewController: UIViewController {
     }
 
     private func getTopTracks() {
-        pleaseWait()
         artistService.getTopTracks(artist.id, countryCode: "PL") { (response: Response) in
             switch response {
             case .Success(let tracks):
-                self.showTopTracks(tracks)
+                self.trackSection.items = tracks
+                self.trackSection.expanded = false
+                self.clearAllNotice {
+                    self.tableView.reloadData()
+                }
             case .Error(let error):
                 self.showError(error)
             }
