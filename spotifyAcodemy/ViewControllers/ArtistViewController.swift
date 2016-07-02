@@ -220,9 +220,6 @@ class ArtistViewController: UIViewController {
     }
 
 
-    //TODO: - Zadanie 8
-
-
 }
 
 extension ArtistViewController: UITableViewDelegate {
@@ -261,6 +258,23 @@ extension ArtistViewController: UITableViewDelegate {
         return sections[section].numberOfItems
     }
 
+    func reloadSection(section: Int) {
+        tableView.reloadSections(NSIndexSet(index: section), withRowAnimation: .Fade)
+    }
+
+    //TODO: - Zadanie 8
+
+    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        guard sections[section].hasMore else { return nil }
+
+        let footerView: MoreResultsFooterView? = tableView.dequeueReusableHeaderFooterView()
+        footerView?.tapAction = { [unowned self] in
+            self.sections[section].expanded = true
+            self.reloadSection(section)
+        }
+
+        return footerView
+    }
 
 
 }
