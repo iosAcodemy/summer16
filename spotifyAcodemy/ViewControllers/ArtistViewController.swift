@@ -9,7 +9,7 @@
 import UIKit
 
 // TODO: - Zadanie 1
-class ArtistViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ArtistViewController: UIViewController {
 
     // MARK: Properties
 
@@ -166,33 +166,22 @@ class ArtistViewController: UIViewController, UITableViewDataSource, UITableView
     //TODO: - Zadanie 4
 
 
-    //MARK: - Table
 
-
-    //TODO: - Zadanie 5
-
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let row = indexPath.row
-        let section = indexPath.section
-
-        switch (section,row) {
-        case (0,0...albums.count - 1):
-            let cell = tableView.dequeueReusableCellWithIdentifier(CustomCell.SearchResultTableViewCell.rawValue, forIndexPath: indexPath) as! SearchResultTableViewCell
-            cell.configure(name: albums[row].name, images: albums[row].images)
-            return cell
-        case (1,0...topTracks.count - 1):
-            let cell = tableView.dequeueReusableCellWithIdentifier(CustomCell.AlbumTrackTableViewCell.rawValue, forIndexPath: indexPath) as! AlbumTrackTableViewCell
-            cell.configure(topTracks[row])
-            return cell
-        case (2,0...relatedArtists.count - 1):
-            let cell = tableView.dequeueReusableCellWithIdentifier(CustomCell.SearchResultTableViewCell.rawValue, forIndexPath: indexPath) as! SearchResultTableViewCell
-            cell.configure(name: relatedArtists[row].name, images: relatedArtists[row].images!)
-            return cell
-        default:
-            let cell = tableView.dequeueReusableCellWithIdentifier(CustomCell.AlbumTrackTableViewCell.rawValue, forIndexPath: indexPath) as! AlbumTrackTableViewCell
-            return cell
-        }
+    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int ) {
+        let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
+        header.contentView.backgroundColor = UIColor(red: 29.0/255.0, green: 29.0/255.0, blue: 29.0/255.0, alpha: 1)
+        header.textLabel!.textColor = UIColor.whiteColor()
+        header.textLabel?.font = UIFont.boldSystemFontOfSize(12)
+        header.textLabel?.textAlignment = .Left
+        header.alpha = 1
     }
+
+    //TODO: - Zadanie 8
+
+
+}
+
+extension ArtistViewController: UITableViewDelegate {
 
     //TODO: - Zadanie 6
 
@@ -228,18 +217,6 @@ class ArtistViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return albums.count
-        case 1:
-            return topTracks.count
-        case 2:
-            return relatedArtists.count
-        default:
-            return 0
-        }
-    }
 
     //TODO: - Zadanie 7
 
@@ -268,17 +245,51 @@ class ArtistViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
 
-    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int ) {
-        let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
-        header.contentView.backgroundColor = UIColor(red: 29.0/255.0, green: 29.0/255.0, blue: 29.0/255.0, alpha: 1)
-        header.textLabel!.textColor = UIColor.whiteColor()
-        header.textLabel?.font = UIFont.boldSystemFontOfSize(12)
-        header.textLabel?.textAlignment = .Left
-        header.alpha = 1
+     //TODO: - Zadanie 6
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0:
+            return albums.count
+        case 1:
+            return topTracks.count
+        case 2:
+            return relatedArtists.count
+        default:
+            return 0
+        }
     }
 
-    //TODO: - Zadanie 8
 
+
+}
+
+extension ArtistViewController: UITableViewDataSource {
+
+    //TODO: - Zadanie 5
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let row = indexPath.row
+        let section = indexPath.section
+
+        switch (section,row) {
+        case (0,0...albums.count - 1):
+            let cell = tableView.dequeueReusableCellWithIdentifier(CustomCell.SearchResultTableViewCell.rawValue, forIndexPath: indexPath) as! SearchResultTableViewCell
+            cell.configure(name: albums[row].name, images: albums[row].images)
+            return cell
+        case (1,0...topTracks.count - 1):
+            let cell = tableView.dequeueReusableCellWithIdentifier(CustomCell.AlbumTrackTableViewCell.rawValue, forIndexPath: indexPath) as! AlbumTrackTableViewCell
+            cell.configure(topTracks[row])
+            return cell
+        case (2,0...relatedArtists.count - 1):
+            let cell = tableView.dequeueReusableCellWithIdentifier(CustomCell.SearchResultTableViewCell.rawValue, forIndexPath: indexPath) as! SearchResultTableViewCell
+            cell.configure(name: relatedArtists[row].name, images: relatedArtists[row].images!)
+            return cell
+        default:
+            let cell = tableView.dequeueReusableCellWithIdentifier(CustomCell.AlbumTrackTableViewCell.rawValue, forIndexPath: indexPath) as! AlbumTrackTableViewCell
+            return cell
+        }
+    }
 
 }
 
