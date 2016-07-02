@@ -8,14 +8,17 @@
 
 import UIKit
 
+// TODO: - Zadanie 1
 class ArtistViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     // MARK: Properties
 
     @IBOutlet private  weak var tableView: UITableView!
-    
+
     var artist: Artist!
-    
+
+    //TODO: - Zadanie 2
+
     private let artistService = ArtistService()
     private let itemService = SpotifyItemService()
     private let favoritesService = FavoriteItemsService()
@@ -64,6 +67,7 @@ class ArtistViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: CGRectGetWidth(tableView.frame), height: 45))
     }
 
+    //TODO - Zadanie 3
 
     private func getData() {
         getArtist()
@@ -159,7 +163,13 @@ class ArtistViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
 
+    //TODO: - Zadanie 4
+
+
     //MARK: - Table
+
+
+    //TODO: - Zadanie 5
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let row = indexPath.row
@@ -184,8 +194,38 @@ class ArtistViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
 
+    //TODO: - Zadanie 6
+
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 3
+    }
+
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            return "Albums:"
+        case 1:
+            return "Top Tracks:"
+        case 2:
+            return "Related Artists:"
+        default:
+            return ""
+        }
+    }
+
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        let section = indexPath.section
+        switch section {
+        case 0:
+            return 60
+        case 1:
+            return 45
+        case 2:
+            return 60
+        default:
+            return 0
+        }
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -200,6 +240,8 @@ class ArtistViewController: UIViewController, UITableViewDataSource, UITableView
             return 0
         }
     }
+
+    //TODO: - Zadanie 7
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let row = indexPath.row
@@ -235,37 +277,13 @@ class ArtistViewController: UIViewController, UITableViewDataSource, UITableView
         header.alpha = 1
     }
 
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return "Albums:"
-        case 1:
-            return "Top Tracks:"
-        case 2:
-            return "Related Artists:"
-        default:
-            return ""
-        }
-    }
-    
+    //TODO: - Zadanie 8
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let section = indexPath.section
-        switch section {
-        case 0:
-            return 60
-        case 1:
-            return 45
-        case 2:
-            return 60
-        default:
-            return 0
-        }
-    }
+
 }
 
 extension ArtistViewController: ArtistHeaderViewDelegate {
-    
+
     func didTapAddToFavorites() {
         guard let artist = artist else { return }
         favoritesService.addToFavorites(artist)
