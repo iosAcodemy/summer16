@@ -204,6 +204,22 @@ class ArtistViewController: UIViewController {
         header.alpha = 1
     }
 
+    private func pushAlbumViewController(album: Album) {
+        let storyboard = UIStoryboard(name: "Album", bundle: nil)
+        let vcontroller = storyboard.instantiateViewControllerWithIdentifier("albumViewController") as! AlbumViewController
+        vcontroller.album = album
+        navigationController?.pushViewController(vcontroller, animated: true)
+    }
+
+    private func pushPlayerViewController(track: Track) {
+        let storyboard = UIStoryboard(name: "Player", bundle: nil)
+        let vcontroller = storyboard.instantiateViewControllerWithIdentifier("PlayerViewController") as! PlayerViewController
+        vcontroller.track = track
+        vcontroller.album = track.album
+        navigationController?.pushViewController(vcontroller, animated: true)
+    }
+
+
     //TODO: - Zadanie 8
 
 
@@ -231,27 +247,11 @@ extension ArtistViewController: UITableViewDelegate {
     //TODO: - Zadanie 7
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let row = indexPath.row
-        let section = indexPath.section
-
-        switch section {
-        case 0 :
-            let storyboard = UIStoryboard(name: "Album", bundle: nil)
-            let vcontroller = storyboard.instantiateViewControllerWithIdentifier("albumViewController") as! AlbumViewController
-            vcontroller.album = albums[row]
-            navigationController?.pushViewController(vcontroller, animated: true)
-        case 1 :
-            let storyboard = UIStoryboard(name: "Player", bundle: nil)
-            let vcontroller = storyboard.instantiateViewControllerWithIdentifier("PlayerViewController") as! PlayerViewController
-            vcontroller.track = topTracks[row]
-            navigationController?.pushViewController(vcontroller, animated: true)
-        case 2 :
-            let storyboard = UIStoryboard(name: "Artist", bundle: nil)
-            let vcontroller = storyboard.instantiateViewControllerWithIdentifier("ArtistViewController") as! ArtistViewController
-            vcontroller.artist = relatedArtists[row]
-            navigationController?.pushViewController(vcontroller, animated: true)
-        default:
-            return
+        let feedSection = sections[indexPath.section]
+        switch feedSection.itemType {
+        case .Album: return pushAlbumViewController(albumSection.items[indexPath.row])
+        case .Track: return pushPlayerViewController(trackSection.items[indexPath.row])
+        case .Artist: fatalError("Artist section should not appear in \(self)")
         }
     }
 
