@@ -156,6 +156,12 @@ class API {
 
     func request(endpoint: Endpoint, completionHandler: (json: JSON?, error: NSError?) -> Void) {
         //Module 1 - Task 2
+
+//		let mainQueueCompletionHandler = { (json: JSON?, error: NSError?) in
+//			dispatch_async(dispatch_get_main_queue()) {
+//				completionHandler(json: json, error: error)
+//			}
+//		}
     }
 
     func createNSErrorFromJson(json: JSON?) -> NSError? {
