@@ -214,35 +214,17 @@ extension ArtistViewController: UITableViewDelegate {
     //TODO: - Zadanie 6
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
+         return sections.count
     }
 
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return "Albums:"
-        case 1:
-            return "Top Tracks:"
-        case 2:
-            return "Related Artists:"
-        default:
-            return ""
-        }
+        return sections[section].title
     }
 
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let section = indexPath.section
-        switch section {
-        case 0:
-            return 60
-        case 1:
-            return 45
-        case 2:
-            return 60
-        default:
-            return 0
-        }
+        return sections[section].cellHeight
     }
 
 
@@ -276,16 +258,7 @@ extension ArtistViewController: UITableViewDelegate {
      //TODO: - Zadanie 6
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return albums.count
-        case 1:
-            return topTracks.count
-        case 2:
-            return relatedArtists.count
-        default:
-            return 0
-        }
+        return sections[section].numberOfItems
     }
 
 
