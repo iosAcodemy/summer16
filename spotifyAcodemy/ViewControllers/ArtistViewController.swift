@@ -179,6 +179,20 @@ class ArtistViewController: UIViewController {
 
     //TODO: - Zadanie 4
 
+    private func createAlbumCellAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
+        let album = albumSection.items[indexPath.row]
+        let cell: SearchResultTableViewCell = tableView.dequeueReusableCell(indexPath: indexPath)
+        cell.configure(name: album.name, images: album.images)
+        return cell
+    }
+
+    private func createTrackCellAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
+        let track = trackSection.items[indexPath.row]
+        let cell: AlbumTrackTableViewCell = tableView.dequeueReusableCell(indexPath: indexPath)
+        cell.configure(track)
+        return cell
+    }
+
 
 
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int ) {
