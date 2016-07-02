@@ -15,21 +15,6 @@ import spotifyAcodemy
 
 class FeedViewControllerSpec: QuickSpec {
     override func spec() {
-        var sut: FeedViewController!
 
-        beforeEach {
-            let storyboard = UIStoryboard(name: "Feed", bundle: nil)
-            sut = storyboard.instantiateViewControllerWithIdentifier("FeedViewController") as! FeedViewController
-        }
-
-        describe("navigation title") {
-            it("should be set") {
-                expect(sut.showResults).to(beFalse())
-            }
-        }
-
-        afterEach {
-            sut = nil
-        }
     }
 }

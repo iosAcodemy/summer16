@@ -8,14 +8,25 @@
 
 import UIKit
 
-class ArtistViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+
+class ArtistViewController: UIViewController {
 
     // MARK: Properties
 
     @IBOutlet private  weak var tableView: UITableView!
-    
+
     var artist: Artist!
-    
+
+    //TODO: - Zadanie 2
+
+    private let albumSection = SpotifyItemSection<Album>(title: "Albums:", itemType: .Album, limit: 4,
+                                                         segueIdentifier: "", cellHeight: 60)
+    private let trackSection = SpotifyItemSection<Track>(title: "Tracks:", itemType: .Track, limit: 8,
+                                                         segueIdentifier: "", cellHeight: 45)
+
+    private lazy var sections: [SpotifyItemSectionType] = [self.albumSection, self.trackSection]
+
+
     private let artistService = ArtistService()
     private let itemService = SpotifyItemService()
     private let favoritesService = FavoriteItemsService()
@@ -64,6 +75,7 @@ class ArtistViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: CGRectGetWidth(tableView.frame), height: 45))
     }
 
+    //TODO - Zadanie 3
 
     private func getData() {
         getArtist()
@@ -85,11 +97,14 @@ class ArtistViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     private func getAlbums() {
-        pleaseWait()
         artistService.getAlbums(artist.id) { (response: Response) in
             switch response {
             case .Success(let albums):
-                self.showAlbums(albums)
+                self.albumSection.items = albums ?? []
+                self.albumSection.expanded = false
+                self.clearAllNotice {
+                    self.tableView.reloadData()
+                }
             case .Error(let error):
                 self.showError(error)
             }
@@ -97,11 +112,14 @@ class ArtistViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     private func getTopTracks() {
-        pleaseWait()
         artistService.getTopTracks(artist.id, countryCode: "PL") { (response: Response) in
             switch response {
             case .Success(let tracks):
-                self.showTopTracks(tracks)
+                self.trackSection.items = tracks
+                self.trackSection.expanded = false
+                self.clearAllNotice {
+                    self.tableView.reloadData()
+                }
             case .Error(let error):
                 self.showError(error)
             }
@@ -159,72 +177,23 @@ class ArtistViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
 
-    //MARK: - Table
+    //TODO: - Zadanie 4
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let row = indexPath.row
-        let section = indexPath.section
-
-        switch (section,row) {
-        case (0,0...albums.count - 1):
-            let cell = tableView.dequeueReusableCellWithIdentifier(CustomCell.SearchResultTableViewCell.rawValue, forIndexPath: indexPath) as! SearchResultTableViewCell
-            cell.configure(name: albums[row].name, images: albums[row].images)
-            return cell
-        case (1,0...topTracks.count - 1):
-            let cell = tableView.dequeueReusableCellWithIdentifier(CustomCell.AlbumTrackTableViewCell.rawValue, forIndexPath: indexPath) as! AlbumTrackTableViewCell
-            cell.configure(topTracks[row])
-            return cell
-        case (2,0...relatedArtists.count - 1):
-            let cell = tableView.dequeueReusableCellWithIdentifier(CustomCell.SearchResultTableViewCell.rawValue, forIndexPath: indexPath) as! SearchResultTableViewCell
-            cell.configure(name: relatedArtists[row].name, images: relatedArtists[row].images!)
-            return cell
-        default:
-            let cell = tableView.dequeueReusableCellWithIdentifier(CustomCell.AlbumTrackTableViewCell.rawValue, forIndexPath: indexPath) as! AlbumTrackTableViewCell
-            return cell
-        }
+    private func createAlbumCellAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
+        let album = albumSection.items[indexPath.row]
+        let cell: SearchResultTableViewCell = tableView.dequeueReusableCell(indexPath: indexPath)
+        cell.configure(name: album.name, images: album.images)
+        return cell
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
+    private func createTrackCellAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
+        let track = trackSection.items[indexPath.row]
+        let cell: AlbumTrackTableViewCell = tableView.dequeueReusableCell(indexPath: indexPath)
+        cell.configure(track)
+        return cell
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return albums.count
-        case 1:
-            return topTracks.count
-        case 2:
-            return relatedArtists.count
-        default:
-            return 0
-        }
-    }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let row = indexPath.row
-        let section = indexPath.section
-
-        switch section {
-        case 0 :
-            let storyboard = UIStoryboard(name: "Album", bundle: nil)
-            let vcontroller = storyboard.instantiateViewControllerWithIdentifier("albumViewController") as! AlbumViewController
-            vcontroller.album = albums[row]
-            navigationController?.pushViewController(vcontroller, animated: true)
-        case 1 :
-            let storyboard = UIStoryboard(name: "Player", bundle: nil)
-            let vcontroller = storyboard.instantiateViewControllerWithIdentifier("PlayerViewController") as! PlayerViewController
-            vcontroller.track = topTracks[row]
-            navigationController?.pushViewController(vcontroller, animated: true)
-        case 2 :
-            let storyboard = UIStoryboard(name: "Artist", bundle: nil)
-            let vcontroller = storyboard.instantiateViewControllerWithIdentifier("ArtistViewController") as! ArtistViewController
-            vcontroller.artist = relatedArtists[row]
-            navigationController?.pushViewController(vcontroller, animated: true)
-        default:
-            return
-        }
-    }
 
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int ) {
         let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
@@ -235,37 +204,98 @@ class ArtistViewController: UIViewController, UITableViewDataSource, UITableView
         header.alpha = 1
     }
 
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return "Albums:"
-        case 1:
-            return "Top Tracks:"
-        case 2:
-            return "Related Artists:"
-        default:
-            return ""
-        }
+    private func pushAlbumViewController(album: Album) {
+        let storyboard = UIStoryboard(name: "Album", bundle: nil)
+        let vcontroller = storyboard.instantiateViewControllerWithIdentifier("albumViewController") as! AlbumViewController
+        vcontroller.album = album
+        navigationController?.pushViewController(vcontroller, animated: true)
     }
-    
+
+    private func pushPlayerViewController(track: Track) {
+        let storyboard = UIStoryboard(name: "Player", bundle: nil)
+        let vcontroller = storyboard.instantiateViewControllerWithIdentifier("PlayerViewController") as! PlayerViewController
+        vcontroller.track = track
+        vcontroller.album = track.album
+        navigationController?.pushViewController(vcontroller, animated: true)
+    }
+
+
+}
+
+extension ArtistViewController: UITableViewDelegate {
+
+    //TODO: - Zadanie 6
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+         return sections.count
+    }
+
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section].title
+    }
+
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let section = indexPath.section
-        switch section {
-        case 0:
-            return 60
-        case 1:
-            return 45
-        case 2:
-            return 60
-        default:
-            return 0
+        return sections[section].cellHeight
+    }
+
+
+    //TODO: - Zadanie 7
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let feedSection = sections[indexPath.section]
+        switch feedSection.itemType {
+        case .Album: return pushAlbumViewController(albumSection.items[indexPath.row])
+        case .Track: return pushPlayerViewController(trackSection.items[indexPath.row])
+        case .Artist: fatalError("Artist section should not appear in \(self)")
         }
     }
+
+     //TODO: - Zadanie 6
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return sections[section].numberOfItems
+    }
+
+    func reloadSection(section: Int) {
+        tableView.reloadSections(NSIndexSet(index: section), withRowAnimation: .Fade)
+    }
+
+    //TODO: - Zadanie 8
+
+    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        guard sections[section].hasMore else { return nil }
+
+        let footerView: MoreResultsFooterView? = tableView.dequeueReusableHeaderFooterView()
+        footerView?.tapAction = { [unowned self] in
+            self.sections[section].expanded = true
+            self.reloadSection(section)
+        }
+
+        return footerView
+    }
+
+
+}
+
+extension ArtistViewController: UITableViewDataSource {
+
+    //TODO: - Zadanie 5
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let feedSection = sections[indexPath.section]
+        switch feedSection.itemType {
+        case .Album: return createAlbumCellAtIndexPath(indexPath)
+        case .Track: return createTrackCellAtIndexPath(indexPath)
+        case .Artist: fatalError("Artist section should not appear in \(self)")
+        }
+    }
+
 }
 
 extension ArtistViewController: ArtistHeaderViewDelegate {
-    
+
     func didTapAddToFavorites() {
         guard let artist = artist else { return }
         favoritesService.addToFavorites(artist)
