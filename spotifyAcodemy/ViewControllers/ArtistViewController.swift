@@ -297,25 +297,11 @@ extension ArtistViewController: UITableViewDataSource {
     //TODO: - Zadanie 5
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let row = indexPath.row
-        let section = indexPath.section
-
-        switch (section,row) {
-        case (0,0...albums.count - 1):
-            let cell = tableView.dequeueReusableCellWithIdentifier(CustomCell.SearchResultTableViewCell.rawValue, forIndexPath: indexPath) as! SearchResultTableViewCell
-            cell.configure(name: albums[row].name, images: albums[row].images)
-            return cell
-        case (1,0...topTracks.count - 1):
-            let cell = tableView.dequeueReusableCellWithIdentifier(CustomCell.AlbumTrackTableViewCell.rawValue, forIndexPath: indexPath) as! AlbumTrackTableViewCell
-            cell.configure(topTracks[row])
-            return cell
-        case (2,0...relatedArtists.count - 1):
-            let cell = tableView.dequeueReusableCellWithIdentifier(CustomCell.SearchResultTableViewCell.rawValue, forIndexPath: indexPath) as! SearchResultTableViewCell
-            cell.configure(name: relatedArtists[row].name, images: relatedArtists[row].images!)
-            return cell
-        default:
-            let cell = tableView.dequeueReusableCellWithIdentifier(CustomCell.AlbumTrackTableViewCell.rawValue, forIndexPath: indexPath) as! AlbumTrackTableViewCell
-            return cell
+        let feedSection = sections[indexPath.section]
+        switch feedSection.itemType {
+        case .Album: return createAlbumCellAtIndexPath(indexPath)
+        case .Track: return createTrackCellAtIndexPath(indexPath)
+        case .Artist: fatalError("Artist section should not appear in \(self)")
         }
     }
 
