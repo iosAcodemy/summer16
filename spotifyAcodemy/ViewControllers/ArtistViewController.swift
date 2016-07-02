@@ -8,7 +8,7 @@
 
 import UIKit
 
-// TODO: - Zadanie 1
+
 class ArtistViewController: UIViewController {
 
     // MARK: Properties
@@ -18,6 +18,14 @@ class ArtistViewController: UIViewController {
     var artist: Artist!
 
     //TODO: - Zadanie 2
+
+    private let albumSection = SpotifyItemSection<Album>(title: "Albums:", itemType: .Album, limit: 4,
+                                                         segueIdentifier: "", cellHeight: 60)
+    private let trackSection = SpotifyItemSection<Track>(title: "Tracks:", itemType: .Track, limit: 8,
+                                                         segueIdentifier: "", cellHeight: 45)
+    
+    private lazy var sections: [SpotifyItemSectionType] = [self.albumSection, self.trackSection]
+
 
     private let artistService = ArtistService()
     private let itemService = SpotifyItemService()
@@ -246,7 +254,7 @@ extension ArtistViewController: UITableViewDelegate {
     }
 
      //TODO: - Zadanie 6
-    
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
