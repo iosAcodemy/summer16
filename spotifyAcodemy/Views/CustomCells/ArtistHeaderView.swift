@@ -8,12 +8,12 @@
 
 import UIKit
 
-protocol ArtistHeaderCellDelegate: class {
+protocol ArtistHeaderViewDelegate: class {
     func didTapAddToFavorites()
     func didTapRemoveFromFavorites()
 }
 
-class ArtistHeaderTableViewCell: UITableViewCell {
+class ArtistHeaderView: UIView {
 
     // MARK: Properties
 
@@ -22,7 +22,7 @@ class ArtistHeaderTableViewCell: UITableViewCell {
         didSet{ setupFavoritesButton() }
     }
 
-    weak var delegate: ArtistHeaderCellDelegate?
+    weak var delegate: ArtistHeaderViewDelegate?
 
     // MARK: Public API
 

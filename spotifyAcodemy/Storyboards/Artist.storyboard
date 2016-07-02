@@ -8,7 +8,7 @@
         <!--Artist View Controller-->
         <scene sceneID="gtG-Vs-ewQ">
             <objects>
-                <viewController storyboardIdentifier="ArtistViewController" id="hRO-f5-5Fz" customClass="ArtistViewController" customModule="spotifyAcodemy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ArtistViewController" automaticallyAdjustsScrollViewInsets="NO" id="hRO-f5-5Fz" customClass="ArtistViewController" customModule="spotifyAcodemy" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="NeM-Ri-Lbp"/>
                         <viewControllerLayoutGuide type="bottom" id="fBP-Ci-trk"/>

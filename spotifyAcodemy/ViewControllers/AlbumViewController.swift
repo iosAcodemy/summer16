@@ -47,7 +47,7 @@ class AlbumViewController: UIViewController,UITableViewDataSource, UITableViewDe
     private func setupTableView() {
         tableView.addNib(.AlbumCoverTableViewCell)
         tableView.addNib(.AlbumTrackTableViewCell)
-        tableView.setTableViewBackgroundGradient(UIColor(red: 29.0/255.0, green: 29.0/255.0, blue: 29.0/255.0, alpha: 1.0), UIColor.blackColor())
+        tableView.setTableViewBackgroundGradient(UIColor.darklyDark(), UIColor.blackColor())
     }
 
     private func getAlbum() {
@@ -105,7 +105,7 @@ class AlbumViewController: UIViewController,UITableViewDataSource, UITableViewDe
 
         case (1,0...numberOfTracks - 1):
             let cell = tableView.dequeueReusableCellWithIdentifier(CustomCell.AlbumTrackTableViewCell.rawValue, forIndexPath: indexPath) as! AlbumTrackTableViewCell
-            cell.configure(tracks![row])
+            cell.configure(track: tracks![row])
             return cell
 
         default:

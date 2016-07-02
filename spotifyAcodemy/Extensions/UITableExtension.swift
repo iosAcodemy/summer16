@@ -13,7 +13,6 @@ enum CustomCell: String {
     case TrackResultTableViewCell = "TrackResultTableViewCell"
     case AlbumCoverTableViewCell = "AlbumCoverTableViewCell"
     case AlbumTrackTableViewCell = "AlbumTrackTableViewCell"
-    case ArtistHeaderTableViewCell = "ArtistHeaderTableViewCell"
     case PlayerTableViewCell = "PlayerTableViewCell"
     case LastSearchTableViewCell = "LastSearchTableViewCell"
 }

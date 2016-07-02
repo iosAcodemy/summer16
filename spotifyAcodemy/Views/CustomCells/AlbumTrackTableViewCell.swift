@@ -13,9 +13,11 @@ class AlbumTrackTableViewCell: UITableViewCell {
     @IBOutlet weak var songNameLabel: UILabel!
     @IBOutlet weak var durationLabel: UILabel!
     
-    func configure(track: Track) {
+    func configure(track track: Track) {
         songNameLabel.text = track.name
         let time = Utils.getTimeFromMs(track.durationMs)
         durationLabel.text = time
     }
 }
+
+extension AlbumTrackTableViewCell: Reusable { }

@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+
 
 protocol SearchResultsViewControllerDelegate: class {
-    func didSelectResult(viewController: SearchResultsViewController, result: String)
+    func didSelectResult(viewController: SearchResultsViewController, result: String?)
 }
 
 class SearchResultsViewController: UIViewController {
@@ -18,12 +21,30 @@ class SearchResultsViewController: UIViewController {
     
     weak var delegate: SearchResultsViewControllerDelegate?
     
+    var interactiveSearch = false
+    
     private var tableView = UITableView()
     private var searchHistory = [String]()
+    
+    private var disposeBag = DisposeBag()
     
     // MARK: - View Cycle
     
     override func viewDidLoad() {
+        
+        if interactiveSearch {
+            view.rx_gesture(.Tap).subscribeNext { [unowned self] _ in
+                self.delegate?.didSelectResult(self, result: nil)
+            }.addDisposableTo(disposeBag)
+            
+        } else {
+            setupTableView()
+        }
+    }
+    
+    // MARK: Private methods
+    
+    private func setupTableView() {
         tableView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 45);
         tableView.delegate = self
         tableView.dataSource = self

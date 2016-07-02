@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class FeedViewController: SpotifyItemListViewController {
 
@@ -31,11 +33,14 @@ class FeedViewController: SpotifyItemListViewController {
 
     private let itemService = SpotifyItemService()
 
+    private let disposeBag = DisposeBag()
+    
     // MARK: ViewController Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
 		setupSearchController()
+        bindSearchBar()
     }
 
     // MARK: Private Methods
@@ -43,6 +48,10 @@ class FeedViewController: SpotifyItemListViewController {
 	private func setupSearchController() {
 		view.addSubview(searchController.searchBar)
 	}
+    
+    private func bindSearchBar() {
+        //TODO: Zadanie 1
+    }
 
     // MARK: Search API
 
@@ -70,9 +79,14 @@ class FeedViewController: SpotifyItemListViewController {
 
 extension FeedViewController: SearchResultsViewControllerDelegate {
 
-	func didSelectResult(viewController: SearchResultsViewController, result: String) {
-		searchController.active = false
-        LastQueries.addQuery(result)
-		performSearch(result)
+	func didSelectResult(viewController: SearchResultsViewController, result: String?) {
+		
+        if let query = result {
+            LastQueries.addQuery(query)
+        }
+        
+        searchController.active = false
+        searchController.searchBar.text = ""
+		
 	}
 }
