@@ -51,6 +51,8 @@ class FeedViewController: SpotifyItemListViewController {
     
     private func bindSearchBar() {
         //TODO: Zadanie 1
+        //hide last search history
+        searchResultsViewController.interactiveSearch = true
     }
 
     // MARK: Search API
